@@ -11,11 +11,18 @@ public class RIPSim {
 			router[i] = new Router(routers[i]);
 			router[i].add(nets[i], "*", 1);
 			router[i].add(nets[i + 1], "*", 1);
-			router[i].printTable();
+			// router[i].printTable();
 		}
 		
+		int round = 0;
 		// Update tables repeatedly until converge
 		while (true) {
+			System.out.println("=====================Table information for round:" + round + "==============================");
+			for (int i = 0; i < num_router; i++) {
+				router[i].printTable();
+			}
+			round++;
+			
 			boolean flag = false;
 			boolean flag1 = false;
 			boolean flag2 = false;
@@ -24,29 +31,30 @@ public class RIPSim {
 				
 				if (i == 0) {
 					flag1 = router[1].updateTable(rtes, router[i].getId());
-					if (flag1) router[1].printTable();
+//					 if (flag1) router[1].printTable();
 					flag |= flag1;
 				}
 				else if (i == 5) {
 					flag1 = router[4].updateTable(rtes, router[i].getId());
-					if (flag1) router[4].printTable();
+//					if (flag1) router[4].printTable();
 					flag |= flag1;
 				}
 				else {
 					
 					flag1 = router[i - 1].updateTable(rtes, router[i].getId());
-					if (flag1) router[i - 1].printTable();
+//					router[i - 1].printTable();
 					flag2 = router[i + 1].updateTable(rtes, router[i].getId());
-					if (flag2) router[i + 1].printTable();
+//					if (flag2) router[i + 1].printTable();
 					flag = flag | flag1 | flag2;
 				}
 			}
 			if (!flag) break;
 		}
 		
-		System.out.println("ASDFGHJKJHGFDFGHJK");
-		for (int i = 0; i < num_router; i++) {			
+		System.out.println("=====================Table information for round:" + round + "==============================");
+		for (int i = 0; i < num_router; i++) {
 			router[i].printTable();
 		}
+		System.out.println("---------------------Update Finish----------------------------------------------------------");
 	}
 }
